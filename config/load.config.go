@@ -7,7 +7,7 @@ type Config struct {
 	DB_Password string `mapstructure:"DB_PASSWORD"`
 	DB_User     string `mapstructure:"DB_USER"`
 	DB_Name     string `mapstructure:"DB_NAME"`
-	DB_SslMode string `mapstructure:"DB_SSL_MODE"`
+	DB_SSLMode string `mapstructure:"DB_SSL_MODE"`
 	Port        string `mapstructure:"PORT"`
 }
 
