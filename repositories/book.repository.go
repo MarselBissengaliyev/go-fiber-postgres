@@ -7,6 +7,27 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Get books handler
+func (r *Repository) GetBooks(context *fiber.Ctx) (err error) {
+	bookModels := []models.Book{}
+
+	if err = r.DB.Find(&bookModels).Error; err != nil {
+		context.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "failed",
+			"error":   err.Error(),
+			"message": "could not get books",
+		})
+	}
+
+	context.Status(http.StatusOK).JSON(fiber.Map{
+		"status":  "success",
+		"data":    bookModels,
+		"message": "the book got",
+	})
+
+	return nil
+}
+
 // Create book handler
 func (r *Repository) CreateBook(context *fiber.Ctx) (err error) {
 	book := models.Book{}
