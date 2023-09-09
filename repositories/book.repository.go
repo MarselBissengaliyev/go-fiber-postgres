@@ -31,6 +31,42 @@ func (r *Repository) GetBooks(context *fiber.Ctx) error {
 	return nil
 }
 
+// Get book by id handler
+func (r *Repository) GetBookById(context *fiber.Ctx) error {
+	bookModel := models.Book{}
+
+	id := context.Params("id")
+	if id == "" {
+		err := errors.New("id cannot be empty")
+
+		context.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"status":  "failed",
+			"error":   err.Error(),
+			"message": "request failed",
+		})
+
+		return err
+	}
+
+	if err := r.DB.Where("id = ?", id).First(&bookModel).Error; err != nil {
+		context.Status(http.StatusNotFound).JSON(fiber.Map{
+			"status":  "failed",
+			"error":   err.Error(),
+			"message": "could not get the book",
+		})
+
+		return err
+	}
+
+	context.Status(http.StatusOK).JSON(fiber.Map{
+		"status":  "success",
+		"data":    bookModel,
+		"message": "book id fetched successfully",
+	})
+
+	return nil
+}
+
 // Create book handler
 func (r *Repository) CreateBook(context *fiber.Ctx) error {
 	book := models.Book{}
@@ -92,7 +128,7 @@ func (r *Repository) DeleteBookById(context *fiber.Ctx) error {
 	}
 
 	context.Status(http.StatusNoContent).JSON(fiber.Map{
-		"status": "success",
+		"status":  "success",
 		"message": "book deleted succefully",
 	})
 
