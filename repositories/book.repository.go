@@ -22,7 +22,7 @@ func (r *Repository) GetBooks(context *fiber.Ctx) (err error) {
 	context.Status(http.StatusOK).JSON(fiber.Map{
 		"status":  "success",
 		"data":    bookModels,
-		"message": "the book got",
+		"message": "book fetched successfully",
 	})
 
 	return nil
