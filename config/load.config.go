@@ -3,7 +3,12 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
-	Port string `mapstructure:"PORT"`
+	DB_Host     string `mapstructure:"DB_HOST"`
+	DB_Password string `mapstructure:"DB_PASSWORD"`
+	DB_User     string `mapstructure:"DB_USER"`
+	DB_Name     string `mapstructure:"DB_NAME"`
+	DB_SslMode string `mapstructure:"DB_SSL_MODE"`
+	Port        string `mapstructure:"PORT"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
