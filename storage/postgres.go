@@ -8,21 +8,21 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewConnection(config config.Config) (db *gorm.DB, err error) {
+func NewConnection(config *config.Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
 		config.DB_Host,
 		config.DB_User,
 		config.DB_Password,
 		config.DB_Name,
-		config.Port,
+		config.DB_Port,
 		config.DB_SSLMode,
 	)
 
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return
+		return db, err
 	}
-	
+
 	return db, nil
 }
