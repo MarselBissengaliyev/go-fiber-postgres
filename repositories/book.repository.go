@@ -10,9 +10,9 @@ import (
 
 // Get books handler
 func (r *Repository) GetBooks(context *fiber.Ctx) error {
-	bookModels := []models.Book{}
+	bookModels := &[]models.Book{}
 
-	if err := r.DB.Find(&bookModels).Error; err != nil {
+	if err := r.DB.Find(bookModels).Error; err != nil {
 		context.Status(http.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "failed",
 			"error":   err.Error(),
@@ -117,7 +117,7 @@ func (r *Repository) DeleteBookById(context *fiber.Ctx) error {
 		return err
 	}
 
-	if err := r.DB.Delete(bookModel, id).Error; err != nil {
+	if err := r.DB.Delete(&bookModel, id).Error; err != nil {
 		context.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"status":  "failed",
 			"error":   err.Error(),
